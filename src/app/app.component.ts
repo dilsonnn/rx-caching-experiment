@@ -12,6 +12,7 @@ export class AppComponent {
   downloadDoc$: Observable<ProductDocument[]>;
   complete = false;
   isLoadingPutDoc = false;
+  isErrorOnPutdoc = false;
 
   constructor(private readonly docService: DocumentService){
     this.downloadDoc$ = this.docService.getDocuments();
@@ -25,9 +26,10 @@ export class AppComponent {
   putDocumentAgree(eventProductTuple: [Event, ProductDocument]): void{
      this.isLoadingPutDoc = true;
      this.docService.putDocumentAgree(eventProductTuple[1])
-     .subscribe(e => {
+     .subscribe(result => {
         console.log('AppComponent()  - Agreed with document : ', eventProductTuple[1]);
         this.isLoadingPutDoc = false;
+        this.isErrorOnPutdoc = !result;
      });
      eventProductTuple[0].preventDefault();
   }

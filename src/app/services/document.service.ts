@@ -39,7 +39,8 @@ export class DocumentService {
         this.agreedDocs.push(document.id);
         document.accepted = true;
         return e;
-      })
+      }),
+      catchError(error => of(false))
     );
   }
 }
