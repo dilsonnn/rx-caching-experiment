@@ -2,7 +2,7 @@ import { DocumentServiceApi } from './../infrastructure/document.service.api';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ProductDocument } from '../model/document';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,8 @@ export class DocumentService {
       this.documents$ = this.docApi.getDocuments()
       .pipe(
         map((docs) => docs),
-        shareReplay(1)
+        shareReplay(1),
+        catchError(error => of([]))
         ) as Observable<ProductDocument[]>;
     }
     return this.documents$;
